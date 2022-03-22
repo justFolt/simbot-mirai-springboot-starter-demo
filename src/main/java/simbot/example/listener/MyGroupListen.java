@@ -7,6 +7,7 @@ import love.forte.simbot.api.message.MessageContent;
 import love.forte.simbot.api.message.containers.GroupAccountInfo;
 import love.forte.simbot.api.message.containers.GroupInfo;
 import love.forte.simbot.api.message.events.GroupMsg;
+import love.forte.simbot.api.sender.Sender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -42,10 +43,10 @@ public class MyGroupListen {
      * 由于你监听的是一个群消息，因此你可以通过 {@link GroupMsg} 作为参数来接收群消息内容。
      */
     @OnGroup
-    public void onGroupMsg(GroupMsg groupMsg) {
+    public void onGroupMsg(GroupMsg groupMsg , Sender sender) {
         // 打印此次消息中的 纯文本消息内容。
         // 纯文本消息中，不会包含任何特殊消息（例如图片、表情等）。
-        System.out.println(groupMsg.getText());
+        //System.out.println(groupMsg.getText());
 
         // 打印此次消息中的 消息内容。
         // 消息内容会包含所有的消息内容，也包括特殊消息。特殊消息使用CAT码进行表示。
@@ -57,7 +58,7 @@ public class MyGroupListen {
         // 特殊消息列表为 List<Neko>, 其中，Neko是CAT码的封装类型。
 
         MessageContent msgContent = groupMsg.getMsgContent();
-
+        //sender.sendGroupMsg(groupMsg,msgContent);
         // 打印消息主体
         System.out.println(msgContent);
         // 打印消息主体中的所有图片的链接（如果有的话）

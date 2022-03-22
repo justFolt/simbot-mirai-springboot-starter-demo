@@ -9,7 +9,14 @@ import love.forte.simbot.api.message.MessageContentBuilderFactory;
 import love.forte.simbot.api.message.events.PrivateMsg;
 import love.forte.simbot.api.sender.Sender;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import simbot.example.mapper.QQMachine.FriendinfoMapper;
+import simbot.example.model.QQMachine.Friendinfo;
+import simbot.example.service.QQMachine.FriendinfoService;
+
+import java.util.*;
 
 /**
  * 私聊消息监听的示例类。
@@ -26,15 +33,24 @@ import org.springframework.stereotype.Service;
  *
  * @author ForteScarlet
  */
+
 @Service
 public class MyPrivateListen {
 
+
+    @Autowired
+    FriendinfoService friendinfoService;
+
+    volatile int load = 0;
+    volatile Map<String,PrivateMsg> friends = new HashMap<>();
+    volatile Map<String,String> codes = new HashMap<>();
+    volatile Map<String,Sender> senders = new HashMap<>();
+    private final MessageContentBuilderFactory messageContentBuilderFactory;
+    private volatile Sender mySender;
     /**
      * 通过依赖注入获取一个 "消息正文构建器工厂"。
      *
      */
-    private final MessageContentBuilderFactory messageContentBuilderFactory;
-
     @Autowired
     public MyPrivateListen(MessageContentBuilderFactory messageContentBuilderFactory) {
         this.messageContentBuilderFactory = messageContentBuilderFactory;
@@ -52,11 +68,28 @@ public class MyPrivateListen {
      * 当然，你也可以使用 {@link love.forte.simbot.api.sender.MsgSender}，
      * 然后 {@code msgSender.SENDER}.
      */
-    @OnPrivate
+    //@OnPrivate
     public void replyPrivateMsg1(PrivateMsg privateMsg, Sender sender){
+//        if (load==0){
+//            loadData();
+//            load=1;
+//        }
         // 获取消息正文。
         MessageContent msgContent = privateMsg.getMsgContent();
-
+        System.out.println(privateMsg.getFlag());
+        System.out.println(privateMsg.getBotInfo()) ;
+        System.out.println(privateMsg.getAccountInfo());
+        System.out.println(friends.size());
+        if (!codes.containsKey(privateMsg.getAccountInfo().getAccountCode())){
+            codes.put(privateMsg.getAccountInfo().getAccountCode(),"zyf");
+            friends.put(privateMsg.getAccountInfo().getAccountCode(),privateMsg);
+            senders.put(privateMsg.getAccountInfo().getAccountCode(),sender);
+            Friendinfo friendinfo = new Friendinfo();
+            friendinfo.setCode(privateMsg.getAccountInfo().getAccountCode());
+            friendinfo.setName("zyf");
+            System.out.println(privateMsg.getAccountInfo().getAccountRemark());
+            friendinfoService.insertOneCode(friendinfo);
+        }
 
         // 向 privateMsg 的账号发送消息，消息为当前接收到的消息。
         sender.sendPrivateMsg(privateMsg, msgContent);
@@ -72,10 +105,10 @@ public class MyPrivateListen {
         // 通过.text(...) 向builder中追加一句话。
         // 通过.face(ID) 向builder中追加一个表情。
         // 通过.build() 构建出最终消息。
-        MessageContent msg = msgBuilder.text("表情：").face(9).build();
+        MessageContent msg = msgBuilder.text("emmm").face(9).build();
 
         // 直接通过这个msg发送。
-        sender.sendPrivateMsg(privateMsg, msg);
+        //sender.sendPrivateMsg(privateMsg, msg);
 
         // 方法2：使用CAT码发送消息。
         // 使用CAT码构建一个需要解析的消息是最灵活的，
@@ -94,11 +127,49 @@ public class MyPrivateListen {
         // String cat2 = catCodeUtil.toCat("face", "id=9");
 
         // 3. 通过模板构建CAT码
-        String cat3 = catCodeUtil.getStringTemplate().face(9);
+        String cat3 = catCodeUtil.getStringTemplate().face(8);
 
         // 在cat码前增加一句 '表情' 并发送
-        sender.sendPrivateMsg(privateMsg, "表情：" + cat3);
-
+        //sender.sendPrivateMsg(privateMsg, "表情：" + cat3);
+        if (mySender==null) {
+            mySender = sender;
+        }
     }
+
+    //@Scheduled(cron = "0/2 * * * * ?")
+    public void sendMessage() throws Exception {
+        if (load==0){
+            System.out.println("load");
+            loadData();
+            load=1;
+        }
+        if (mySender ==null) return;
+        System.out.println("start");
+        System.out.println(codes.size());
+        for (Map.Entry<String, String> entry:codes.entrySet()){
+            String key = entry.getKey();
+            PrivateMsg privateMsg = friends.getOrDefault(key,null);
+            MessageContentBuilder msgBuilder = messageContentBuilderFactory.getMessageContentBuilder();
+            MessageContent msgContent = msgBuilder.text("emmm").face(8).build();
+            if (privateMsg!=null){
+                msgContent = friends.get(key).getMsgContent();
+            }
+            //Sender sender = senders.get(entry.getKey());
+            for (int i =0;i<10;i++){
+                mySender.sendPrivateMsg(key,msgContent);
+                System.out.println(i+":"+key);
+            }
+        }
+    }
+
+    public void loadData(){
+        for (Friendinfo friendinfo : friendinfoService.selectAll()) {
+            if (!codes.containsKey(friendinfo.getCode())){
+                codes.put(friendinfo.getCode(),friendinfo.getName());
+            }
+        }
+    }
+
+
 
 }
