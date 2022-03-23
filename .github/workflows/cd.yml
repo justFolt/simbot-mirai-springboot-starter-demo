@@ -68,5 +68,4 @@ jobs:
           port: 22
           script: |
             cd /testCD && nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
-            
             mkdir test
