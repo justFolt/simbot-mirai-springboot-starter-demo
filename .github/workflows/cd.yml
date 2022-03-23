@@ -52,7 +52,7 @@ jobs:
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
-      - name: start_dataflow
+      - name: start_bot
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
