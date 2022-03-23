@@ -60,14 +60,13 @@ jobs:
           password: ${{secrets.PASSWORD}}
           
       - name: start_Qbot
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            cd..
             cd /testCD
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
 
