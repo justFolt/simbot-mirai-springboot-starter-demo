@@ -46,7 +46,7 @@ jobs:
       - name: scp
         uses: garygrossgarten/github-action-scp@release
         with:
-          local: simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          local: /home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           remote: /dataflow/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER_NAME }}
