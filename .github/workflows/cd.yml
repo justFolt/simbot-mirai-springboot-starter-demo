@@ -50,7 +50,7 @@ jobs:
           target: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           host: ${{ secrets.HOST }}
           port: 22
-          user: ${{ secrets.USER_NAME }}
+          username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.PASSWORD }}
           
       - name: start_Qbot
