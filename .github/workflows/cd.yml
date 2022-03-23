@@ -47,7 +47,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@v0.7.3
         with:
           # Path to the local folder you want to copy.
-          local:  home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target
+          local:  home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/*
           # Path on the remote server to copy to.
           remote: /testCD
           # Hostname or IP address of the server.
