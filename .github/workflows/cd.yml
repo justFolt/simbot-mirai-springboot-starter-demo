@@ -44,13 +44,14 @@ jobs:
         run: mvn package
       
       - name: scp
-        uses: wlixcc/SFTP-Deploy-Action@v1.0 
-        with:  
-          username: 'root'   #ssh user name
-          server: '${{ secrets.HOST }}' #引用之前创建好的secret
-          ssh_private_key: ${{ secrets.PASSWORD }} #引用之前创建好的secret
-          local_path: './home/runner/work/simbot-mirai-springboot-starter-demo/*'  # 对应我们项目build的文件夹路径
-          remote_path: 'TestCD'
+        uses: horochx/deploy-via-scp@1.1.0
+        with:
+          local: home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          remote: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          host: ${{ secrets.HOST }}
+          port: 22
+          user: ${{ secrets.USER_NAME }}
+          key: ${{ secrets.PASSWORD }}
           
       - name: start_Qbot
         uses: appleboy/ssh-action@master
@@ -62,3 +63,6 @@ jobs:
           script: |
             cd /testCD
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
+
+
+
