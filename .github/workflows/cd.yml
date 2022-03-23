@@ -59,12 +59,12 @@ jobs:
           # Password for password-based user authentication.
           password: ${{secrets.PASSWORD}}
           
-      - name: start_Qbot
-        uses: appleboy/ssh-action@master
+      - name: start
+        uses: aappleboy/ssh-action@v0.1.4
         with:
-          host: ${{ secrets.HOST }} 
-          username: ${{ secrets.USER_NAME }}
-          password: ${{ secrets.PASSWORD }}
+          host: ${{secrets.HOST}} 
+          username: ${{secrets.USER_NAME}}
+          password: ${{secrets.PASSWORD}}
           port: 22
           script: |
             nohup java -jar /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
