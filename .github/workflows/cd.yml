@@ -49,7 +49,7 @@ jobs:
           # Path to the local folder you want to copy.
           local:  /home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           # Path on the remote server to copy to.
-          remote: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          remote: ~/testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           # Hostname or IP address of the server.
           host: ${{secrets.HOST}}
           # Username for authentication.
