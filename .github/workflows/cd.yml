@@ -47,7 +47,7 @@ jobs:
         uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
-          remote: /dataflow/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          remote: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USER_NAME }}
           password: ${{ secrets.PASSWORD }}
@@ -60,5 +60,5 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           port: 22
           script: |
-            cd /dataflow
+            cd /testCD
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
