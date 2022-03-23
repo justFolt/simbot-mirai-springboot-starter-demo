@@ -44,14 +44,20 @@ jobs:
         run: mvn package
       
       - name: scp
-        uses: siva1024/scp-deployer@v1.0
+        uses: garygrossgarten/github-action-scp@v0.7.3
         with:
-          source: home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
-          target: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
-          host: ${{ secrets.HOST }}
+          # Path to the local folder you want to copy.
+          local:  home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target
+          # Path on the remote server to copy to.
+          remote: /testCD
+          # Hostname or IP address of the server.
+          host: ${{secrets.HOST}}
+          # Username for authentication.
+          username: ${{secrets.USER_NAME}}
+          # Port number of the server.
           port: 22
-          username: ${{ secrets.USER_NAME }}
-          password: ${{ secrets.PASSWORD }}
+          # Password for password-based user authentication.
+          password: ${{secrets.PASSWORD}}
           
       - name: start_Qbot
         uses: appleboy/ssh-action@master
