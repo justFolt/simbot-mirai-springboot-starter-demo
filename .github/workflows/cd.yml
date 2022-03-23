@@ -44,14 +44,14 @@ jobs:
         run: mvn package
       
       - name: scp
-        uses: horochx/deploy-via-scp@1.1.0
+        uses: siva1024/scp-deployer@v1.0
         with:
-          local: home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
-          remote: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          source: home/runner/work/simbot-mirai-springboot-starter-demo/simbot-mirai-springboot-starter-demo/target/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
+          target: /testCD/simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar
           host: ${{ secrets.HOST }}
           port: 22
           user: ${{ secrets.USER_NAME }}
-          key: ${{ secrets.PASSWORD }}
+          password: ${{ secrets.PASSWORD }}
           
       - name: start_Qbot
         uses: appleboy/ssh-action@master
