@@ -3,7 +3,8 @@ logging:
     love:
       forte:
         simbot: debug
-
+server:
+   port: 8082
 #simbot:
 #  core:
 #    bots: 2177425801:13145210.00.0
