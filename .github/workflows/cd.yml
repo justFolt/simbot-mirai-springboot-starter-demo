@@ -65,7 +65,6 @@ jobs:
           password: ${{secrets.PASSWORD}}
           port: 22
           script: |
+            source /etc/profile
             cd /testCD
-            <<EOF
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
-            EOF
