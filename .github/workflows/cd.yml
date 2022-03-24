@@ -68,3 +68,4 @@ jobs:
             source /etc/profile
             cd /testCD
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
+            mkdir test1
