@@ -67,5 +67,5 @@ jobs:
           script: |
             source /etc/profile
             cd /testCD
-            kill-9 $(lsof -i:8082 -t)
+            kill -9 $(lsof -i:8082 -t)
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar  >zyf.out &
