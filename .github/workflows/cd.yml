@@ -19,7 +19,6 @@ jobs:
   testCD:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-    environment: production
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -33,7 +32,7 @@ jobs:
           java-version: '8'
           distribution: 'adopt'
       - name: Cache multiple paths
-        uses: actions/cache@v3
+        uses: actions/cache@v2.1.6
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -59,7 +58,7 @@ jobs:
           password: ${{secrets.PASSWORD}}
           
       - name: start
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@master
         with:
           host: ${{secrets.HOST}} 
           username: ${{secrets.USER_NAME}}
