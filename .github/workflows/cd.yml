@@ -67,5 +67,4 @@ jobs:
           script: |
             cd /testCD
             mkdir test1
-            nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
-            mkdir test2
+            nohup /root/jdk1.8.0_202/bin/java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
