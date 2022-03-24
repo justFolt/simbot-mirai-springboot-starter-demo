@@ -68,6 +68,6 @@ jobs:
           port: 22
           script: |
             cd /testCD
-            mkdir test2
+            mkdir test1
             nohup java -jar simbot-mirai-springboot-starter-demo-1.0-SNAPSHOT.jar &
             mkdir test2
